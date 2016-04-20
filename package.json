@@ -1,0 +1,22 @@
+{
+  "name": "snoopysnoopz",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CharlesAnthonyBrowne/snoopysnoopz.git"
+  },
+  "author": "charles browne <charlesanthonyproctorbrowne@gmail.com> (http://charlesbrowne.io)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CharlesAnthonyBrowne/snoopysnoopz/issues"
+  },
+  "homepage": "https://github.com/CharlesAnthonyBrowne/snoopysnoopz#readme",
+  "dependencies": {
+    "incremental-dom": "^0.4.1"
+  }
+}
