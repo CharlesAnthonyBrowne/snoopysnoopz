@@ -1,73 +1,72 @@
-var snoopysnoopz = (function () {
-	"use strict";
+const snoopysnoopz = ((() => {
 
-	var elementOpenStart = IncrementalDOM.elementOpenStart
-	var elementOpenEnd = IncrementalDOM.elementOpenEnd
-	var elementClose = IncrementalDOM.elementClose
-	var currentElement = IncrementalDOM.currentElement
-	var skip = IncrementalDOM.skip
-	var attr = IncrementalDOM.attr
-	var text = IncrementalDOM.text
+    const eleOpenStart = IncrementalDOM.elementOpenStart;
+    const eleOpenEnd = IncrementalDOM.elementOpenEnd;
+    const eleClose = IncrementalDOM.elementClose;
+    const currentElement = IncrementalDOM.currentElement;
+    const skip = IncrementalDOM.skip;
+    const attr = IncrementalDOM.attr;
+    const text = IncrementalDOM.text;
 
-	function openTag(head, keyAttr) {
-		var dotSplit = head.split('.')
-		var hashSplit = dotSplit[0].split('#')
+    function openTag(head, keyAttr) {
+			var dotSplit = head.split('.');
+			var hashSplit = dotSplit[0].split('#');
 
-		var tagName = hashSplit[0] || 'div'
-		var id = hashSplit[1]
-		var className = dotSplit.slice(1).join(' ')
+			var tagName = hashSplit[0] || 'div';
+			var id = hashSplit[1];
+			var className = dotSplit.slice(1).join(' ');
 
-		elementOpenStart(tagName, keyAttr)
+			elementOpenStart(tagName, keyAttr)
 
-		if (id) attr('id', id)
-		if (className) attr('class', className)
+			if (id) attr('id', id)
+			if (className) attr('class', className)
 
-		return tagName
-	}
-
-	function applyAttrsObj(attrsObj) {
-		for (var k in attrsObj) {
-			attr(k, attrsObj[k])
+			return tagName
 		}
-	}
 
-	function parse(markup) {
-		var head = markup[0]
-		var attrsObj = markup[1]
-		var hasAttrs = attrsObj && attrsObj.constructor === Object
-		var firstChildPos = hasAttrs ? 2 : 1
-		var keyAttr = hasAttrs && attrsObj.key
-		var skipAttr = hasAttrs && attrsObj.skip
-
-		var tagName = openTag(head, keyAttr)
-
-		if (hasAttrs) applyAttrsObj(attrsObj)
-
-		elementOpenEnd()
-
-		if (skipAttr) {
-			skip()
-		} else {
-			for (var i = firstChildPos, len = markup.length; i < len; i++) {
-				var node = markup[i]
-
-				if (node === undefined) continue
-
-				switch (node.constructor) {
-					case Array:
-						parse(node)
-						break
-					case Function:
-						node(currentElement())
-						break
-					default:
-						text(node)
-				}
+    function applyAttrsObj(attrsObj) {
+			for (const k in attrsObj) {
+				attr(k, attrsObj[k])
 			}
 		}
 
-		elementClose(tagName)
+    function parse(markup) {
+			var head = markup[0];
+			var attrsObj = markup[1];
+			var hasAttrs = attrsObj && attrsObj.constructor === Object;
+			var firstChildPos = hasAttrs ? 2 : 1;
+			var keyAttr = hasAttrs && attrsObj.key;
+			var skipAttr = hasAttrs && attrsObj.skip;
+
+			var tagName = openTag(head, keyAttr);
+
+			if (hasAttrs) applyAttrsObj(attrsObj)
+
+			elementOpenEnd()
+
+			if (skipAttr) {
+				skip()
+			} else {
+				for (let i = firstChildPos, len = markup.length; i < len; i++) {
+					const node = markup[i];
+
+					if (node === undefined) continue
+
+					switch (node.constructor) {
+						case Array:
+							parse(node)
+							break
+						case Function:
+							node(currentElement())
+							break
+						default:
+							text(node)
+					}
+				}
+			}
+
+			elementClose(tagName)
 	}
 
-	return parse
-})();
+    return parse
+}))();
