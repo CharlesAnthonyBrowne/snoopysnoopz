@@ -1,36 +1,36 @@
 const snoopysnoopz = ((() => {
 
-    const eleOpenStart = IncrementalDOM.elementOpenStart;
-    const eleOpenEnd = IncrementalDOM.elementOpenEnd;
-    const eleClose = IncrementalDOM.elementClose;
-    const currentElement = IncrementalDOM.currentElement;
-    const skip = IncrementalDOM.skip;
-    const attr = IncrementalDOM.attr;
-    const text = IncrementalDOM.text;
+	const eleOpenStart = IncrementalDOM.elementOpenStart,
+		  eleOpenEnd = IncrementalDOM.elementOpenEnd,
+		  eleClose = IncrementalDOM.elementClose,
+		  currentElement = IncrementalDOM.currentElement,
+		  skip = IncrementalDOM.skip,
+		  attr = IncrementalDOM.attr,
+		  text = IncrementalDOM.text;
 
-    function openTag(head, keyAttr) {
-			var dotSplit = head.split('.');
-			var hashSplit = dotSplit[0].split('#');
+	function openTag(head, keyAttr) {
+		var dotSplit = head.split('.');
+		var hashSplit = dotSplit[0].split('#');
 
-			var tagName = hashSplit[0] || 'div';
-			var id = hashSplit[1];
-			var className = dotSplit.slice(1).join(' ');
+		var tagName = hashSplit[0] || 'div';
+		var id = hashSplit[1];
+		var className = dotSplit.slice(1).join(' ');
 
-			elementOpenStart(tagName, keyAttr)
+		elementOpenStart(tagName, keyAttr)
 
-			if (id) attr('id', id)
-			if (className) attr('class', className)
+		if (id) attr('id', id)
+		if (className) attr('class', className)
 
-			return tagName
-		}
+		return tagName
+	}
 
-    function applyAttrsObj(attrsObj) {
+		function applyAttrsObj(attrsObj) {
 			for (const k in attrsObj) {
 				attr(k, attrsObj[k])
 			}
 		}
 
-    function parse(markup) {
+		function parse(markup) {
 			var head = markup[0];
 			var attrsObj = markup[1];
 			var hasAttrs = attrsObj && attrsObj.constructor === Object;
@@ -68,5 +68,5 @@ const snoopysnoopz = ((() => {
 			elementClose(tagName)
 	}
 
-    return parse
+		return parse
 }))();
